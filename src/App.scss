@@ -1,0 +1,37 @@
+@use 'sass:map';
+
+$z-index-map: (
+    'toolbar': 2000,
+);
+
+$z-index-toolbar-map: (
+    'dropdown': 1,
+);
+
+@mixin z-index($key, $level: 0) {
+    @if $level != 0 {
+        z-index: calc(map.get($z-index-map, $key) + $level);
+    } @else {
+        z-index: map.get($z-index-map, $key);
+    }
+}
+
+.toolbar {
+    position: relative;
+    display: flex;
+    position: sticky;
+    align-items: center;
+    margin: 0 2rem;
+    min-height: 2rem;
+    background-color: rgba(128, 128, 128, 0.5);
+    padding: 0.25rem 4rem;
+    border-radius: 0.25rem;
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+
+    @include z-index('toolbar');
+
+    &__dropdown {
+        position: relative;
+        @include z-index('toolbar', 1);
+    }
+}
